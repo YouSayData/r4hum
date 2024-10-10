@@ -1,0 +1,276 @@
+---
+title: "Intro to Visualisations in R"
+tutorial:
+  id: "yousaydata.introvis"
+  version: 3.0.0
+output:
+  learnr::tutorial:
+    progressive: true
+    allow_skip: true
+    theme: simplex
+    includes:
+      before_body: "./www/branding.html"
+runtime: shiny_prerendered
+description: >
+  Learn some basic concepts of ggplot2.
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(tidyverse)
+library(tidytuesdayR)
+library(skimr)
+
+rolling_stone <- tt_load(2024, week = 19)[["rolling_stone"]]
+gradethis::gradethis_setup()
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+## 1.1 The library we use
+
+One of the most central libraries in modern R is `tidyverse`. We are going to use it throughout. `tidyverse` is essentially a collection of many different libraries for working with rectangular data. We are also using the library `tidytuesdayR` to access the some example datasets.
+
+```{r echo=TRUE, eval=FALSE}
+library(tidyverse)
+library(tidytuesdayR)
+library(skimr)
+
+rolling_stone <- tt_load(2024, week = 19)[["rolling_stone"]]
+```
+
+In what follows let's try to answer whether newer albums have a higher spotify popularity. First we can have a look at it:
+
+```{r lookup, exercise=TRUE}
+rolling_stone
+```
+
+That just shows us the dataset itself. If we want a bit more information we can use `skim` from the `skimr` package:
+
+```{r lookup2, exercise=TRUE}
+skim(rolling_stone)
+```
+
+But often it is better to visualise the data. We can use `ggplot` for that. Here is a simple scatter plot:
+
+```{r firstplot, exercise=TRUE}
+ggplot(data = rolling_stone) +
+  geom_point(mapping = aes(x = release_year, y = spotify_popularity))
+```
+
+So we see that `ggplot` has the following simple structure:
+
+```{r echo=T}
+# ggplot(data = <DATA>) +
+# <GEOM_FUNCTION>(mapping = aes(<MAPPINGS>))
+```
+
+## 1.2 Exercises
+
+1. Run `ggplot(data = rolling_stone)`. What do you see?
+
+```{r ex121, exercise=TRUE}
+
+```
+
+2. How many rows are in `rolling_stone`? How many columns?
+
+```{r ex122, exercise=TRUE}
+
+```
+
+3. Make a scatterplot of `debut_album_release_year` vs `weeks_on_billboard` (replace the `<...>` in the code).
+
+```{r ex123, exercise=TRUE}
+ggplot(data = <DATA>) +
+<GEOM_FUNCTION>(mapping = aes(<MAPPINGS>))
+```
+
+4. What happens if you make a scatterplot of `type` vs `artist_gender`? Why is the plot not very useful?
+
+```{r ex125, exercise=TRUE}
+ggplot(data = <DATA>) +
+<GEOM_FUNCTION>(mapping = aes(<MAPPINGS>))
+```
+
+
+## 2.1 Aesthetics 
+
+The grammar of graphics attempts to translate features of the data into visual features of the plot. The `aes` function is central to this. Aside from the obvious x and y values, we can also map other variables to different aesthetics. 
+
+For instance the colour.
+
+```{r colmark, exercise=T}
+ggplot(data = rolling_stone) + 
+  geom_point(mapping = aes(x = release_year, y = spotify_popularity, color = artist_gender))
+```
+
+Of course there are more aesthetics and options.
+
+Like size:
+```{r sizemark, exercise=T}
+ggplot(data = rolling_stone) + 
+  geom_point(mapping = aes(x = release_year, y = spotify_popularity, size = weeks_on_billboard))
+```
+
+Like the alpha value of a colour:
+```{r alphamark, exercise=T}
+ggplot(data = rolling_stone) + 
+  geom_point(mapping = aes(x = release_year, y = spotify_popularity, alpha = weeks_on_billboard))
+```
+
+Or shape:
+```{r shapemark, exercise=T}
+ggplot(data = rolling_stone) + 
+  geom_point(mapping = aes(x = release_year, y = spotify_popularity, shape = artist_gender))
+```
+
+If I want to make a general change, I am doing this outside of the `aes` function:
+```{r allmark, exercise=T}
+ggplot(data = rolling_stone) + 
+  geom_point(mapping = aes(x = release_year, y = spotify_popularity), size = 2)
+```
+
+## 2.2. Exercises
+
+1. What’s gone wrong with this code? Why are the points not blue? Can you correct it?
+
+```{r ex221, exercise=T}
+ggplot(data = rolling_stone) + 
+  geom_point(mapping = aes(x = release_year, y = spotify_popularity, color = "blue"))
+```
+
+2. Which variables in `rolling_stone` are categorical? Which variables are continuous? How can you see this information when you run `rolling_stone`?
+
+```{r ex222, exercise=T}
+
+```
+
+3. Map a continuous variable to color, size, and shape. How do these aesthetics behave differently for categorical vs. continuous variables?
+
+```{r ex223, exercise=T}
+
+```
+
+4. What happens if you map the same variable to multiple aesthetics?
+
+```{r ex224, exercise=T}
+
+```
+
+5. What does the stroke aesthetic do? What shapes does it work with? (Hint: use ?geom_point)
+
+```{r ex225, exercise=T}
+
+```
+
+6. What happens if you map an aesthetic to something other than a variable name, like aes(colour = years_between > 20)? Note, you’ll also need to specify x and y.
+
+```{r ex226, exercise=T}
+
+```
+
+## 2.3. Facets
+
+We can also use facets for our visualisations. Either we wrap it by one variable with `facet_wrap`:
+
+```{r echo=T}
+ggplot(data = rolling_stone) + 
+  geom_point(mapping = aes(x = release_year, y = spotify_popularity))  + 
+  facet_wrap(~ artist_gender, ncol = 2)
+```
+
+Or produce a two-dimensional grid with `facet_grid`:
+
+```{r echo=T}
+ggplot(data = rolling_stone) + 
+  geom_point(mapping = aes(x = release_year, y = spotify_popularity)) + 
+  facet_grid(artist_gender ~ type)
+```
+
+Feel free to try it yourself:
+
+```{r ptt23, exercise = T}
+
+```
+
+## 3.1 GEOMs
+
+I am sure you do not want to just produce scatter plots all the time. `ggplot` has you covered for all kinds of plots:
+
+What's the difference here?
+
+```{r echo=T}
+ggplot(data = rolling_stone) + 
+  geom_point(mapping = aes(x = release_year, y = spotify_popularity))
+
+ggplot(data = rolling_stone) + 
+  geom_smooth(mapping = aes(x = release_year, y = spotify_popularity))
+```
+
+With other types of plots, `ggplot` gives you access to another set of aesthetics. For instance, the `linetype` aesthetic:
+
+```{r echo=T}
+ggplot(data = rolling_stone) + 
+  geom_smooth(mapping = aes(x = release_year, y = spotify_popularity, linetype = artist_gender))
+```
+
+In addition to switching `geom_`-functions you can also visually group the data or modify the legend:
+
+```{r ptt31, exercise = T}
+# ggplot(data = rolling_stone) + 
+#   geom_smooth(mapping = aes(x = release_year, y = spotify_popularity, group = artist_gender))
+
+# ggplot(data = rolling_stone) + 
+#   geom_smooth(mapping = aes(x = release_year, y = spotify_popularity, col = artist_gender), show.legend = F)
+```
+
+It is also possible to use multiple different `geom`-functions. You essentially stack the visualisations on top of each other. `ggplot` works in layers!
+
+```{r, echo=T}
+ggplot(data = rolling_stone) + 
+  geom_point(mapping = aes(x = release_year, y = spotify_popularity)) +
+  geom_smooth(mapping = aes(x = release_year, y = spotify_popularity, col = artist_gender))
+```
+
+Try to avoid code duplication, though. The `geom`-functions can inhere from their parent `ggplot`-function. Check it out yourself: 
+
+```{r ptt31a, exercise=T}
+ggplot(data = rolling_stone, mapping = aes(x = release_year, y = spotify_popularity)) + 
+  geom_point() +
+  geom_smooth(mapping = aes(col = artist_gender))
+```
+
+If you do this, you can always overwrite inherited settings for individual layers. What do you think this will produce? 
+
+```{r ptt31b, exercise=T}
+ggplot(data = rolling_stone, mapping = aes(x = release_year, y = spotify_popularity)) + 
+  geom_point(mapping = aes(col = artist_gender), show.legend = F) +
+  geom_smooth()
+```
+
+## 3.2. Exercises
+
+1. What geom would you use to draw a line chart? A boxplot? A histogram? An area chart?
+
+```{r ex321, exercise=T}
+
+```
+
+2. Run this code in your head and predict what the output will look like. Then, run the code in R and check your predictions.
+
+```
+ggplot(data = rolling_stone, mapping = aes(x = release_year, y = spotify_popularity)) + 
+  geom_point(aes(color = type), show.legend = F) + 
+  geom_smooth(aes(linetype = type), col = "black", se = FALSE)
+``` 
+
+```{r ex322, exercise=T}
+
+```
+
+3. What does the se argument to geom_smooth() do?
+
+```{r ex324, exercise=T}
+
+```
