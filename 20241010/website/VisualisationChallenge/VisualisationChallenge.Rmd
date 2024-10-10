@@ -2,7 +2,7 @@
 title: "Visualisation Challenge"
 tutorial:
   id: "yousaydata.vischallenge"
-  version: 2.0.0
+  version: 3.0.0
 output:
   learnr::tutorial:
     progressive: true
@@ -18,6 +18,9 @@ description: >
 ```{r setup, include=FALSE}
 library(learnr)
 library(tidyverse)
+library(tidytuesdayR)
+
+rolling_stone <- tt_load(2024, week = 19)[["rolling_stone"]]
 gradethis::gradethis_setup()
 knitr::opts_chunk$set(echo = FALSE)
 ```
@@ -27,7 +30,7 @@ knitr::opts_chunk$set(echo = FALSE)
 Reproduce the graph:
 
 ```{r}
-ggplot(mpg, aes(displ,hwy)) +
+ggplot(rolling_stone, aes(debut_album_release_year,spotify_popularity)) +
   geom_point() +
   geom_smooth(se=F)
 ```
@@ -41,8 +44,8 @@ ggplot(mpg, aes(displ,hwy)) +
 Reproduce the graph:
 
 ```{r}
-ggplot(mpg, aes(displ,hwy)) +
-  geom_smooth(aes(group=drv), se=F)+
+ggplot(rolling_stone, aes(debut_album_release_year,spotify_popularity)) +
+  geom_smooth(aes(group=artist_gender), se=F) +
   geom_point()
 ```
 
@@ -55,8 +58,8 @@ ggplot(mpg, aes(displ,hwy)) +
 Reproduce the graph:
 
 ```{r}
-ggplot(mpg, aes(displ,hwy, col=drv)) +
-  geom_smooth(se=F)+
+ggplot(rolling_stone, aes(debut_album_release_year,spotify_popularity, col=artist_gender)) +
+  geom_smooth(se=F) +
   geom_point()
 ```
 
@@ -69,8 +72,8 @@ ggplot(mpg, aes(displ,hwy, col=drv)) +
 Reproduce the graph:
 
 ```{r}
-ggplot(mpg, aes(displ,hwy)) +
-  geom_point(aes(col=drv)) +
+ggplot(rolling_stone, aes(debut_album_release_year,spotify_popularity)) +
+  geom_point(aes(col=artist_gender)) +
   geom_smooth(se=F)
 ```
 
@@ -83,9 +86,9 @@ ggplot(mpg, aes(displ,hwy)) +
 Reproduce the graph:
 
 ```{r}
-ggplot(mpg, aes(displ,hwy)) +
-  geom_point(aes(col=drv)) +
-  geom_smooth(aes(linetype=drv), se=F)
+ggplot(rolling_stone, aes(debut_album_release_year,spotify_popularity)) +
+  geom_point(aes(col=artist_gender)) +
+  geom_smooth(aes(linetype=artist_gender), se=F)
 ```
 
 ```{r challenge5, exercise=TRUE}
@@ -97,9 +100,9 @@ ggplot(mpg, aes(displ,hwy)) +
 Reproduce the graph:
 
 ```{r}
-ggplot(mpg, aes(displ,hwy)) +
+ggplot(rolling_stone, aes(debut_album_release_year,spotify_popularity)) +
   geom_point(size = 4, col = "white") +
-  geom_point(aes(col=drv))
+  geom_point(aes(col=artist_gender))
 ```
 
 ```{r challenge6, exercise=TRUE}
