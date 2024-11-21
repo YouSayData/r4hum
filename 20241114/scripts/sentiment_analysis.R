@@ -2,6 +2,7 @@ library(tidyverse)
 library(tidytext)
 library(textdata)
 library(here)
+library(ggrepel)
 
 ecb_speeches <- read_delim(
   here("data", "ecb_speeches.csv"),
@@ -64,7 +65,9 @@ clagarde_speeches_sw_removed |>
   group_by(word, value, sentiment) |> 
   count() |> 
   ungroup() |> 
+  group_by(sentiment) |>
   slice_max(n, n = 10) |> 
+  ungroup() |>
   ggplot(aes(n, value, col = sentiment)) +
   geom_col(aes(fill = sentiment), position = "dodge", width = 0.2) +
   geom_label(aes(label = word)) +
@@ -145,4 +148,4 @@ clagarde_speeches_loughran_rated |>
 # Exercise
 
 # 1. Find out whether Christine Lagarde is looking forward to the weekend or not
-# 2. There are two other sentiment lexicons available: bing, ncr. Try to use them and compare the results.
+# 2. There are two other sentiment lexicons available: bing, nrc. Try to use them and compare the results.

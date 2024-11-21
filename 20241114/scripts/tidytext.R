@@ -72,6 +72,11 @@ clagarde_speeches_sw_removed
 clagarde_speeches_unnested |> 
   count(word, sort = T)
 
+my_stopwords <- clagarde_speeches_unnested |> 
+  count(word, sort = T) |> 
+  head(300) |> 
+  select(word)
+
 clagarde_speeches_sw_removed |> 
   count(word, sort = T)
 
