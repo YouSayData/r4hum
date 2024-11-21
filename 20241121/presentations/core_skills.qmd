@@ -1,0 +1,85 @@
+---
+title: "R Fundamentals: Core Skills Recap"
+subtitle: "Visualization, Transformation, and Text Analysis"
+format: revealjs
+---
+
+# R Fundamentals
+
+- **Data Visualizations**: Basics of `ggplot2`.
+- **Data Types and Structures**: Fundamental building blocks in R.
+- **Data Transformation**: Cleaning and reshaping data with `dplyr`.
+- **Textual Data**: Working with text using `tidytext`.
+
+---
+
+# Data Visualization with ggplot2
+
+## Grammar of Graphics: Core Concepts
+- Use `ggplot()` to create visualizations.
+- Define:
+  - **Aesthetics (`aes`)**: Map variables to visual properties.
+  - **Geometries**: Choose plot types like points (`geom_point`) or lines (`geom_line`).
+
+---
+
+## Adding Layers and Customizations
+- **Faceting**: Split data into subplots by a variable (e.g., `facet_wrap(~class)`).
+- **Multiple Layers**: Overlay geometries like points and trend lines (`geom_smooth`).
+
+---
+
+# Data Types and Structures in R
+
+## Fundamental Data Types
+- **Logical**: `TRUE`, `FALSE`.
+- **Numeric**: Continuous values like `3.14`.
+- **Integer**: Whole numbers (e.g., `42L`).
+- **Character**: Text strings like `"Hello!"`.
+- **Factors**: Categorical data with levels.
+
+- Use `class(x)` or `typeof(x)` to check a variable's type.
+
+---
+
+## Data Structures in R
+- **Vectors**: Homogeneous, 1D (`c(1, 2, 3)`).
+- **Lists**: Heterogeneous, 1D (`list(1, "text", TRUE)`).
+- **Data Frames** / **tibbles**: Rectangular, mixed types.
+- **Matrices**: Homogeneous, 2D.
+
+---
+
+# Data Transformation with dplyr
+
+## Core dplyr Functions
+- **`filter()`**: Select rows based on conditions.
+- **`select()`**: Choose specific columns.
+- **`mutate()`**: Add or modify columns.
+- **`arrange()`**: Sort rows.
+- **`summarise()`**: Collapse data into summaries.
+
+- Use `group_by()` with `summarise()` to calculate aggregates.
+
+---
+
+# Working with Textual Data
+
+## Tokenization
+- Break text into individual words using `unnest_tokens()`.
+
+## Stopword Removal
+- Exclude common, uninformative words with `anti_join(stop_words)`.
+
+## Word Frequency
+- Count occurrences of words using `count()`.
+
+## Sentiment Analysis
+- Use sentiment lexicons (e.g., AFINN or Bing) to score words and analyze text sentiment.
+
+---
+## What You Learned
+- Basics of `ggplot2` for creating visualizations.
+- Core data types and structures in R.
+- Data transformation with `dplyr` functions.
+- Text analysis using `tidytext`.

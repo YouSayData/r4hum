@@ -1,0 +1,101 @@
+---
+title: "Introduction to Geospatial Analysis in R"
+subtitle: "Understanding Spatial Data with sf and Projections"
+format: revealjs
+---
+
+# Introduction
+
+## What is Geospatial Analysis?
+- Analyzing data that has a spatial or geographical component.
+- Examples:
+  - Mapping weather stations.
+  - Analyzing population density.
+  - Visualizing coffee ratings by country.
+
+## Key Concepts
+- **Spatial Data**: Data linked to specific locations on Earth.
+- **Coordinate Systems**: How spatial data is represented.
+- **Projections**: Flattening the globe into a 2D map.
+
+---
+
+# Important Abbreviations (sf, st, crs)
+
+## **What is `sf`?**
+- **`sf`** stands for **Simple Features**.
+- It's a standardized way to store and manipulate spatial data in R.
+- Key features:
+  - Encodes spatial objects like points, lines, polygons.
+  - Stores attributes (non-spatial data) in a data frame.
+  - Compatible with many R tools (e.g., `dplyr`, `ggplot2`).
+
+--- 
+
+## Structure of an `sf` object
+1. **Geometry column**: Contains spatial information (e.g., coordinates).
+2. **Attributes**: Data associated with the geometry (e.g., names, populations).
+
+---
+
+## **What is `st`?**
+- **`st`** is a prefix for spatial functions in the `sf` package.
+- Examples of commonly used `st` functions:
+  - `st_read()`: Read spatial data from a file.
+  - `st_write()`: Save spatial data to a file.
+  - `st_transform()`: Change the coordinate reference system (CRS).
+  - `st_crs()`: Query or set the CRS of spatial data.
+  - `st_union()`: Combine multiple geometries into one.
+
+---
+
+## **What is CRS?**
+- **CRS**: Coordinate Reference System.
+- Defines how spatial data maps to Earth's surface.
+- Two key components:
+  1. **Datum**: Model of the Earth (e.g., WGS84).
+  2. **Projection**: How the 3D Earth is flattened into 2D.
+
+---
+
+# Coordinate Reference Systems (CRS)
+
+## Why is CRS Important?
+- Ensures spatial data is aligned correctly.
+- Enables accurate distance, area, and location calculations.
+- Helps to overlay datasets with different projections.
+
+## Common CRSs
+- **EPSG:4326 (WGS84)**:
+  - Latitude/Longitude.
+  - Default for many datasets.
+- **EPSG:3857 (Web Mercator)**:
+  - Used in web maps (e.g., Google Maps).
+- **Custom Projections**:
+  - E.g., Mollweide, Robinson for specific visualization purposes.
+
+---
+
+# Projections
+
+## What are Projections?
+- A way to transform the spherical Earth into a flat 2D map.
+- All projections introduce some distortions:
+  - **Area** (size of land masses).
+  - **Shape** (angles, distances).
+  - **Distance** (accuracy of measurements).
+
+---
+
+## Types of Projections
+1. **Equal-Area Projections**:
+   - Preserves area but distorts shape.
+   - Example: Mollweide projection.
+   
+2. **Conformal Projections**:
+   - Preserves angles and shapes locally but distorts area.
+   - Example: Mercator projection.
+
+3. **Compromise Projections**:
+   - Balances distortions in area, shape, and distance.
+   - Example: Robinson projection.
